@@ -52,8 +52,8 @@ func main() {
 	// Use the common pool.
 	var wg sync.WaitGroup
 	syncCalculateSum := func() {
+		defer wg.Done()
 		demoFunc()
-		wg.Done()
 	}
 	for i := 0; i < runTimes; i++ {
 		wg.Add(1)
@@ -66,8 +66,8 @@ func main() {
 	// Use the pool with a method,
 	// set 10 to the capacity of goroutine pool and 1 second for expired duration.
 	p, _ := ants.NewPoolWithFunc(10, func(i interface{}) {
+		defer wg.Done()
 		myFunc(i)
-		wg.Done()
 	})
 	defer p.Release()
 	// Submit tasks one by one.
